@@ -30,7 +30,6 @@ public class AccountDAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         } finally {
             // Closing resources in reverse order of their opening
             // Closing the connection is necessary to:
