@@ -20,7 +20,7 @@ public class AccountService {
     public Account registerAccount(Account account) {
         // Validating username
         String username = account.getUsername();
-        if (username == null || username.trim().isEmpty()) {
+        if (username == null || username.isBlank()) {
             throw new IllegalArgumentException(""); // "Username cannot be blank."
         }
 
