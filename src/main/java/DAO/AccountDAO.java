@@ -49,6 +49,7 @@ public class AccountDAO {
     public Account getAccountByUserName(String username) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null; 
         try {
             connection = ConnectionUtil.getConnection();
 
@@ -60,7 +61,7 @@ public class AccountDAO {
             preparedStatement.setString(1, username);
             
             // Executing the SQL statement to retrieve the result
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             // Checking if the result set contains any row indicating that the account exists
             if (resultSet.next()) {
@@ -73,8 +74,9 @@ public class AccountDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            // Ensure that resources (PreparedStatement, Connection) are closed to prevent resource leaks
+            // Ensure that resources (ResultSet, PreparedStatement, Connection) are closed to prevent resource leaks
             try {
+                if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close(); // Returning the connection to the pool
             } catch (SQLException e) {
@@ -82,5 +84,40 @@ public class AccountDAO {
             }
         }
         return null;
+    }
+
+    public boolean accountExistsById(int accountId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionUtil.getConnection();
+
+            // Checking if account_id exists
+            // We do not need to retrieve all the column data, just a single constant (1), which is faster.
+            String sql = "SELECT 1 FROM account WHERE account_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Setting the value for account_id
+            preparedStatement.setInt(1, accountId);
+            
+            // Executing the SQL statement to retrieve the result
+            resultSet = preparedStatement.executeQuery();
+
+            // Return true if a row exists, false otherwise
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            // Ensuring that resources (ResultSet, PreparedStatement, Connection) are closed to prevent resource leaks
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close(); // Returning the connection to the pool
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
     }
 }
