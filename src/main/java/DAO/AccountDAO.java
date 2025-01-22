@@ -74,11 +74,11 @@ public class AccountDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            // Ensure that resources (ResultSet, PreparedStatement, Connection) are closed to prevent resource leaks
+            // Ensuring that resources (ResultSet, PreparedStatement, Connection) are closed to prevent resource leaks
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close(); // Returning the connection to the pool
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -113,7 +113,7 @@ public class AccountDAO {
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close(); // Returning the connection to the pool
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
