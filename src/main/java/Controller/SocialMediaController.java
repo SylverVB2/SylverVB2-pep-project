@@ -21,7 +21,7 @@ import java.util.*;
  * It manages the interactions with Account and Message services.
  */
 public class SocialMediaController {
-    // Declaring accountService and messageService as a class-level field.
+    // Declaring accountService and messageService as class-level fields.
     private AccountService accountService;
     private MessageService messageService;
 
